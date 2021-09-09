@@ -1,0 +1,17 @@
+.navBar-container{
+    width: 100vw;
+    height: 50px;
+    background-color: #002f53;
+    position: sticky;    
+    top: 0;
+    display: flex;
+    z-index: 99;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.nav-links{    
+    color: white;
+    font-size: 2rem;        
+}

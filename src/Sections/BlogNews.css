@@ -1,0 +1,14 @@
+.container{
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inputs{
+    margin: 10px;
+}
+
+.inputs-continer{
+    display: flex;
+    flex-direction: column;
+}
