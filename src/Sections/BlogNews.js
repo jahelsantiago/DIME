@@ -6,6 +6,7 @@ import { uploadFile } from "../firebase/storageActions";
 import { Button } from "@material-ui/core";
 import TextFieldGenerator from "../components/TextFieldGenerator";
 import InputFileGenerator from "../components/InputFileGenerator";
+import PaginaCompleta from "./PaginaCompleta";
 
 /**The fields of the files inputs */
 const filesInputs = ["imagen", "gif", "pdf"]
@@ -45,6 +46,8 @@ export const BlogNews = () => {
             <div className = "inputs-continer" >
                 <TextFieldGenerator textInputs = {textInputs} inputs = {inputs} setInputs = {setInputs}/>
                 <InputFileGenerator filesInputs = {filesInputs} inputs = {inputs}/>                
+                <PaginaCompleta/>
+                
                 <br/>
                 <Button onClick = {generarResumen} variant="contained" color="primary">Generar Codigos</Button>
                 <br/>
