@@ -1,12 +1,12 @@
 import "./BlogNews.css"
 import React, { useState } from 'react'
-import TextField from '@material-ui/core/TextField';
 import { generateCodigoPaginaCompleta, generateCodigoResumen } from './BlogGeneratorUtils';
 import { uploadFile } from "../firebase/storageActions";
 import { Button } from "@material-ui/core";
 import TextFieldGenerator from "../components/TextFieldGenerator";
 import InputFileGenerator from "../components/InputFileGenerator";
 import PaginaCompleta from "./PaginaCompleta";
+import useArray from "../components/useArray";
 
 /**The fields of the files inputs */
 const filesInputs = ["imagen", "gif", "pdf"]
@@ -30,12 +30,14 @@ export const BlogNews = () => {
 
     const [ReportePaginaCompleta, setReportePaginaCompleta] = useState("")
     const [ReporteSeccionResumen, setReporteSeccionResumen] = useState("")
+
+    const [sections , push, remove, edit, up, down] = useArray() //array to sabe de sections
     
     const generarResumen = async () => {                
         const imagen = await uploadFile(inputs.imagen)
         const gif = await uploadFile(inputs.gif)
         const pdf = await uploadFile(inputs.pdf)                
-        setReportePaginaCompleta(generateCodigoPaginaCompleta({...inputs, ...{imagen, gif, pdf}}))        
+        setReportePaginaCompleta(generateCodigoPaginaCompleta({...inputs, ...{imagen, gif, pdf}, sections}))        
         setReporteSeccionResumen(generateCodigoResumen({...inputs, ...{imagen, gif, pdf}}))
     }
                 
@@ -46,7 +48,7 @@ export const BlogNews = () => {
             <div className = "inputs-continer" >
                 <TextFieldGenerator textInputs = {textInputs} inputs = {inputs} setInputs = {setInputs}/>
                 <InputFileGenerator filesInputs = {filesInputs} inputs = {inputs}/>                
-                <PaginaCompleta/>
+                <PaginaCompleta sections = {sections} push = {push} remove = {remove} edit = {edit} up = {up} down = {down}/>
                 
                 <br/>
                 <Button onClick = {generarResumen} variant="contained" color="primary">Generar Codigos</Button>

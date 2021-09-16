@@ -1,3 +1,5 @@
+const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion" }
+
 function generateUrl(pageNumber, domain = "152"){
     return(`/apex/f?p=${domain}:${pageNumber}`)
 }
@@ -37,6 +39,7 @@ export const generateCodigoResumen = (inputs) => {
 
 
 export const generateCodigoPaginaCompleta = (inputs) => {
+    console.log(inputs)
     return `
     <style>
         .limits{
@@ -107,7 +110,54 @@ export const generateCodigoPaginaCompleta = (inputs) => {
 </div>
 <div class="blog-container">
     <img src="${inputs.gif}"/>
-    <iframe src="${inputs.pdf}" width="100%" allow="autoplay"></iframe>    
+    ${getSectionsCode(inputs.sections)}    
 </div>`
 }
 
+function getSectionsCode(sections = []){
+    console.log(sections)
+    let code = ""
+    sections.forEach(item => {        
+        code = code.concat(getSection(item))
+    })
+    console.log(code)
+    return code
+}
+
+function getSection(section){
+    if (section.kind === kinds.parrafo){
+        return getParagraph(section.payload)
+    }
+    if(section.kind === kinds.titulo){
+        return getTitle(section.payload)
+    }
+    if(section.kind === kinds.imagen){
+        return getBlogImage(section.payload)
+    }
+    if (section.kind === kinds.inicio){
+        return getSectionStart(section.payload.back, section.payload.color)
+    }
+    if (section.kind === kinds.fin){
+        return getSectionEnd()
+    }
+}
+
+function getTitle(title){
+    return `<h3>${title}</h3>`
+}
+
+function getParagraph(p){
+    return `<p>${p}</p>`
+}
+
+function getBlogImage(src){
+    return `<img src="${src}" class="image-blog" />`
+}
+
+function getSectionStart(background, color){
+    return `<div class="blog-section" style="background-color: ${background}; color: ${color};">`
+}
+
+function getSectionEnd(){
+    return `</div>`
+}
