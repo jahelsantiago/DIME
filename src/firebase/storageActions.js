@@ -4,6 +4,10 @@ const storageRef = storage.ref("/blog")
 
 export async function uploadFile(file){        
     file = file.current.files[0]    
+    return await getFileUrl(file)     
+}
+
+export async function getFileUrl(file){
     if(!file){
         return ""
     }    
@@ -11,5 +15,5 @@ export async function uploadFile(file){
     const snapshot = await fileRef.put(file)
     const url = snapshot.ref.getDownloadURL()
     
-    return url 
+    return url
 }

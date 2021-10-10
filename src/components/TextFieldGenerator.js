@@ -16,14 +16,11 @@ export default function TextFieldGenerator({textInputs = [], inputs = {}, setInp
         inputsCopy[key] = e.target.value
         setInputs(inputsCopy)
     }
-
-    
-
-    console.log(textInputs)
+        
     return (
         <div style = {{display: "flex", flexDirection : "column"}}>
         {textInputs.map(key => (
-                    <TextField className = "inputs" id = {key} label = {key} value = {inputs[key]} onChange = {(e) => handleInputChange(e, key)}/>    
+                    <TextField key = {key} className = "inputs" id = {key} label = {key} value = {inputs[key]} onChange = {(e) => handleInputChange(e, key)}/>    
                 ))}
         </div>      
     )

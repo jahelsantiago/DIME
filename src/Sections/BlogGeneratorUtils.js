@@ -1,4 +1,4 @@
-const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion" }
+export const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion" }
 
 function generateUrl(pageNumber, domain = "152"){
     return(`/apex/f?p=${domain}:${pageNumber}`)
@@ -38,89 +38,35 @@ export const generateCodigoResumen = (inputs) => {
 }
 
 
-export const generateCodigoPaginaCompleta = (inputs) => {
+export const generateCodigoPaginaCompleta = (inputs) => {    
     console.log(inputs)
     return `
-    <style>
-        .limits{
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto; 
-            padding-top: 30px;            
-            padding-bottom: 30px;              
-        }
-        
-        .title-section{
-            background-color: rgb(243, 244, 243);            
-        }
-
-        .blog-date{
-            color: gray;
-        }
-
-        .blog-author{
-            color: #002f53;
-        }        
-
-        .blog-container{
-            text-align: center;
-        }
-
-        .blog-container img{
-            max-width: 100%;                                    
-            margin-left: auto;
-            margin-right: auto;    
-            margin-bottom: 50px;       
-            background-color: white;              
-        }
-
-        .blog-container iframe{
-            height: 500px;
-        }
-        .blog-kind{
-            font-weight: bold;
-        }
-        .blog-title {
-            color: #002f53;
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-    </style>
-    
-    <div class="title-section">
-    <div class="limits">
-        <h2 class="blog-title">
-            ${inputs.titulo}
-        </h2>
-        <p class="blog-kind">
-        ${inputs.categoria}
-        </p>
-        <p class="blog-date">
-        ${inputs.fecha}
-        </p>
-        <p class="blog-author">
-            ${inputs.autores}
-        </p>            
-        <p>
-            ${inputs.resumen}
-        </p>
-    </div>
-</div>
-<div class="blog-container">
-    <img src="${inputs.gif}"/>
-    ${getSectionsCode(inputs.sections)}    
-</div>`
+        ${style}            
+        <div class="title-section">
+            <div class="limits">
+                <h2 class="blog-title">
+                    ${inputs.titulo}
+                </h2>
+                ${getParagraph(inputs.categoria, "blog-kind")}                
+                ${getParagraph(inputs.fecha, "blog-date")}                
+                ${getParagraph(inputs.autores, "blog-author")}                                
+                ${getParagraph(inputs.resumen)}                                                                
+                <a className = "blog-pdf" href = "${inputs.pdf}" target = "_blank">
+                    Ver en PDF
+                </a>
+            </div>
+        </div>
+        <div class="blog-container limits">            
+            ${getImage(inputs.gif)}
+            ${getSectionsCode(inputs.sections)}    
+        </div>`
 }
 
-function getSectionsCode(sections = []){
-    console.log(sections)
+function getSectionsCode(sections = []){    
     let code = ""
     sections.forEach(item => {        
         code = code.concat(getSection(item))
-    })
-    console.log(code)
+    })    
     return code
 }
 
@@ -132,26 +78,35 @@ function getSection(section){
         return getTitle(section.payload)
     }
     if(section.kind === kinds.imagen){
-        return getBlogImage(section.payload)
+        return getImage(section.payload, "image-blog")
     }
     if (section.kind === kinds.inicio){
-        return getSectionStart(section.payload.back, section.payload.color)
+        return getSectionStart(section.payload.back, section.payload.letra)
     }
     if (section.kind === kinds.fin){
         return getSectionEnd()
     }
 }
 
-function getTitle(title){
-    return `<h3>${title}</h3>`
+function getTitle(title, className = ""){
+    if(!title){
+        return ""
+    }
+    return `<h3 class = "${className}">${title}</h3>`
 }
 
-function getParagraph(p){
-    return `<p>${p}</p>`
+function getParagraph(p, className = ""){
+    if(p === ""){
+        return ""
+    }
+    return `<p class = "${className}">${p}</p>`
 }
 
-function getBlogImage(src){
-    return `<img src="${src}" class="image-blog" />`
+function getImage(src, className = ""){
+    if(!src){
+        return ""
+    }
+    return `<img src="${src}" class="${className}" />`
 }
 
 function getSectionStart(background, color){
@@ -161,3 +116,92 @@ function getSectionStart(background, color){
 function getSectionEnd(){
     return `</div>`
 }
+
+const style = `
+<style>
+    *{
+        box-sizing: border-box;
+    }
+
+    .limits{
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;         
+        padding-bottom: 30px;              
+        text-align: justify;
+    }
+
+    .title-section{
+        background-color: rgb(243, 244, 243);            
+    }
+
+    .blog-date{
+        color: gray;
+    }
+
+    .blog-author{
+        color: #002f53;
+    }        
+
+    .blog-container{
+        text-align: center;
+        
+    }
+
+    .blog-container img{
+        max-width: 100%;                                    
+        margin-left: auto;
+        margin-right: auto;    
+        margin-bottom: 50px;       
+        background-color: white;              
+    }
+
+    .blog-container p{
+        text-align: justify;
+    }
+
+    .blog-container h3 {
+        text-align: justify;
+        margin-left: 1rem;
+        color: #002f53;
+        margin-top: 4rem;
+    }
+    
+
+    .blog-kind{
+        font-weight: bold;
+    }
+    .blog-title {
+        color: #002f53;
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 4rem;
+    }                
+    .blog-section{            
+        padding: 3rem;
+    }
+
+    .blog-section h3 {
+        color: inherit;
+        margin-top: 0;
+    }
+
+    .blog-fechas{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .blog-pdf:hover{
+        text-decoration: underline;
+    }
+    
+    .blog-pdf{
+        background-color: #ac0707;
+        padding: 0.5rem;
+        color: white;
+        font-weight: bolder;
+        text-align: center;
+        text-decoration: none;
+    }
+</style>
+`

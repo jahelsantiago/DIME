@@ -1,12 +1,13 @@
 import "./BlogNews.css"
 import React, { useState } from 'react'
-import { generateCodigoPaginaCompleta, generateCodigoResumen } from './BlogGeneratorUtils';
-import { uploadFile } from "../firebase/storageActions";
+import { generateCodigoPaginaCompleta, generateCodigoResumen, kinds } from './BlogGeneratorUtils';
+import { getFileUrl, uploadFile } from "../firebase/storageActions";
 import { Button } from "@material-ui/core";
 import TextFieldGenerator from "../components/TextFieldGenerator";
 import InputFileGenerator from "../components/InputFileGenerator";
 import PaginaCompleta from "./PaginaCompleta";
 import useArray from "../components/useArray";
+import { CopyButton } from "../components/CopyButton";
 
 /**The fields of the files inputs */
 const filesInputs = ["imagen", "gif", "pdf"]
@@ -32,17 +33,37 @@ export const BlogNews = () => {
     const [ReporteSeccionResumen, setReporteSeccionResumen] = useState("")
 
     const [sections , push, remove, edit, up, down] = useArray() //array to sabe de sections
+        
     
-    const generarResumen = async () => {                
+    const processSections =  async (sections = []) => {
+        const newSections = [...sections]
+        for(let i = 0; i < sections.length; i++){
+            let section = sections[i]
+            if(section.kind === kinds.imagen){
+                const url = await getFileUrl(section.payload)
+                newSections[i] = {...section, payload : url}
+            } 
+        }       
+        return newSections
+    }
+    
+    const processInputs = async (inputs, sections) => {
         const imagen = await uploadFile(inputs.imagen)
         const gif = await uploadFile(inputs.gif)
-        const pdf = await uploadFile(inputs.pdf)                
-        setReportePaginaCompleta(generateCodigoPaginaCompleta({...inputs, ...{imagen, gif, pdf}, sections}))        
-        setReporteSeccionResumen(generateCodigoResumen({...inputs, ...{imagen, gif, pdf}}))
+        const pdf = await uploadFile(inputs.pdf) 
+        const newSections = await processSections(sections)
+        return {...inputs, ...{imagen, gif, pdf}, sections : newSections}
+    }
+    
+    const generarResumen = async () => {                                              
+        const newInputs = await processInputs(inputs, sections)        
+        setReportePaginaCompleta(generateCodigoPaginaCompleta(newInputs))    
+        setReporteSeccionResumen(generateCodigoResumen(newInputs))
     }
                 
     return (
-        <div className ="container">            
+        <div className ="container">                        
+
             <h1>Resumen</h1>            
             <h2>Datos para llenar</h2>            
             <div className = "inputs-continer" >
@@ -56,12 +77,14 @@ export const BlogNews = () => {
             </div>
             <h2>
                 Codigo para Pagina Completa
-            </h2>
-            <p>{ReportePaginaCompleta}</p>            
+            </h2>     
+            <CopyButton text = {ReportePaginaCompleta}/>
+            <p className = "codigo-item">{ReportePaginaCompleta}</p>            
             <br/>            
             <h2>
                 Codigo para Seccion del Resumen
             </h2>
+            <CopyButton text = {ReporteSeccionResumen}/>
             <p>{ReporteSeccionResumen}</p>
         </div>
     )

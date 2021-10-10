@@ -1,11 +1,7 @@
 import { Button, IconButton, TextField } from '@material-ui/core'
 import React from 'react'
-import useArray from '../components/useArray'
+import { kinds } from './BlogGeneratorUtils'
 import "./PaginaCompleta.css"
-
-const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion" }
-
-
 
 
 export default function PaginaCompleta({sections , push, remove, edit, up, down}) {                
@@ -13,12 +9,12 @@ export default function PaginaCompleta({sections , push, remove, edit, up, down}
         <div className = "completa-container">
             <div className = "">
                 {sections.map((item,index)=>(
-                    <ItemSeccion item = {item} index = {index} deleteItem = {()=>{remove(index)}} edit = {edit} up = {()=>{up(index)}} down = {()=>down(index)}/>
+                    <ItemSeccion key = {item+index} item={item} index={index} deleteItem={()=>{remove(index)}} edit={edit} up={()=>{up(index)}} down = {()=>down(index)}/>
                 ))}
             </div>            
             <div className = "completa-buttons">                
                 {Object.keys(kinds).map((item, idx)=>(
-                    <Button onClick = {()=>push({kind : kinds[item], payload : ""})} variant="contained" color="primary" key = {idx}>{kinds[item]}</Button>
+                    <Button onClick = {()=>push({kind : kinds[item], payload : ""})} variant="contained" color="primary" key = {item+idx}>{kinds[item]}</Button>
                 ))}                
             </div>
 
