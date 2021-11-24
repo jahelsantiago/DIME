@@ -54,7 +54,7 @@ function ItemSeccion({item, index, deleteItem, edit, up, down}){
  * @returns 
  */
 function getField(item, index, edit){
-    if(item.kind === kinds.titulo || item.kind === kinds.parrafo){
+    if(item.kind === kinds.titulo || item.kind === kinds.parrafo || item.kind === kinds.embed){
         return <TextField 
                     className = "inputs"  
                     label = {item.kind} 
@@ -66,6 +66,7 @@ function getField(item, index, edit){
                     rows = {item.kind === kinds.titulo?1:6}
                 />
     }
+
     
     if(item.kind === kinds.imagen){
         return <input type="file" accept="image/png, image/jpeg" onChange = {(e)=>{item.payload = e.target.files[0]}}/>

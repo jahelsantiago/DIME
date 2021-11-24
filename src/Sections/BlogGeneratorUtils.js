@@ -1,4 +1,4 @@
-export const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion" }
+export const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion", embed: "embed"}
 
 function generateUrl(pageNumber, domain = "152"){
     return(`/apex/f?p=${domain}:${pageNumber}`)
@@ -86,6 +86,13 @@ function getSection(section){
     if (section.kind === kinds.fin){
         return getSectionEnd()
     }
+    if (section.kind === kinds.embed){
+        return getEmbed(section.payload)
+    }
+}
+
+function getEmbed(code){
+    return code
 }
 
 function getTitle(title, className = ""){
