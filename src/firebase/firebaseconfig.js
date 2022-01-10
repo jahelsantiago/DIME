@@ -2,7 +2,7 @@ import firebase from "firebase"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDiksanrpzYBgD2Ee_93uUoad-UQ9a8pi8",
+  apiKey: "key_here",
   authDomain: "dime-utils.firebaseapp.com",
   projectId: "dime-utils",
   storageBucket: "dime-utils.appspot.com",
