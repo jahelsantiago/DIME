@@ -1,7 +1,7 @@
 import { Button, TextField } from '@material-ui/core'
 import React, { useState } from 'react'
-import { CopyButton } from '../components/CopyButton'
-import RadioButtonsGroup from '../components/RadioButton'
+import { CopyButton } from '../../components/CopyButton'
+import RadioButtonsGroup from '../../components/RadioButton'
 import "./Ets.css"
 import generarCodigo from './EtsUtils'
 

@@ -1,10 +1,11 @@
 
-import { BlogNews } from "./Sections/BlogNews";
-import NavBar from "./Sections/NavBar";
+import { BlogNews } from "./Pages/Blog/BlogNews";
+import NavBar from "./components/NavBar";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
-import Slides from "./Sections/Slides";
-import { Home } from "./Sections/Home";
-import { Ets } from "./Sections/Ets";
+import Slides from "./Pages/Slides/Slides";
+import { Home } from "./Pages/Home/Home";
+import { Ets } from "./Pages/ETS/Ets";
+import Blog from "./Pages/Blog_new/Blog";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <Router>
         <NavBar/>
         <Switch>         
-          <Route path = "/blog"  component = {BlogNews}/>
+          <Route path = "/blog"  component = {Blog}/>
+          <Route path = "/blog_new"  component = {Blog}/>
           <Route path = "/slides"  component = {Slides}/>
           <Route path = "/ETS"  component = {Ets}/>
           <Route path = "/"  component = {Home}/>

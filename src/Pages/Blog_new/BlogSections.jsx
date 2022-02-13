@@ -1,6 +1,6 @@
-import { Button, IconButton, TextField } from '@material-ui/core'
+import { Button, IconButton } from '@material-ui/core'
 import React from 'react'
-import { kinds } from './BlogGeneratorUtils'
+import { kinds } from './Utils'
 import "./PaginaCompleta.css"
 
 
@@ -14,17 +14,17 @@ export default function PaginaCompleta({sections , push, remove, edit, up, down}
             </div>            
             <div className = "completa-buttons">                
                 {Object.keys(kinds).map((item, idx)=>(
-                    <Button onClick = {()=>push({kind : kinds[item], payload : ""})} variant="contained" color="primary" key = {item+idx}>{kinds[item]}</Button>
+                    <Button onClick = {()=>push({kind : kinds[item], payload : {text : "", file : null}})} variant="contained" color="primary" key = {item+idx}>{kinds[item]}</Button>
                 ))}                
             </div>
 
-        </div>
+        </div> 
     )
 }
 
 
 /**
- * Retorna un componente correspondiente a una seccion
+ * Retorna un componente correspondiente a una seccion del blog, es la que es generada cuando se le da click a un boton de agregar una seccion
  * @param {*} param0 
  * @returns 
  */
@@ -46,6 +46,7 @@ function ItemSeccion({item, index, deleteItem, edit, up, down}){
 }
 
 
+
 /**
  * Retorn un Field Texto o Input FIle segun el tipo de input.kind lo requiera
  * @param {*} item 
@@ -55,21 +56,28 @@ function ItemSeccion({item, index, deleteItem, edit, up, down}){
  */
 function getField(item, index, edit){
     if(item.kind === kinds.titulo || item.kind === kinds.parrafo || item.kind === kinds.embed){
-        return <TextField 
-                    className = "inputs"  
-                    label = {item.kind} 
-                    value = {item.payload} 
-                    variant = {"outlined"}
-                    onChange = {(e)=>{edit(index, {...item, payload : e.target.value})}} 
-                    style = {{width : "90%"}}
-                    multiline = {true}
-                    rows = {item.kind === kinds.titulo?1:6}
-                />
+        return (
+            <div>
+                <h2>
+                    {item.kind}
+                </h2>
+                <textarea rows="2" cols="90"  type = "text" value = {item.payload.text} onChange = {(e)=>{edit(index, {...item, payload : {...item.payload, text : e.target.value}})}}/>
+            </div>
+        )
     }
 
     
     if(item.kind === kinds.imagen){
-        return <input type="file" accept="image/png, image/jpeg" onChange = {(e)=>{item.payload = e.target.files[0]}}/>
+        return <input type="file" accept="image/png, image/jpeg, image/jpg" onChange = {(e)=>{item.payload = e.target.files[0]}}/>
+    }
+
+    if(item.kind === kinds.pdf){
+        return (
+            <div>
+                <input type="text" value = {item.payload.text} onChange = {(e)=>edit(index, {...item, payload : {...item.payload,  text: e.target.value}}) } placeholder="Titulo del pdf"/>
+                <input type="file" accept="application/pdf" onChange = {(e)=>edit(index , {...item, payload : {...item.payload, file :  e.target.files[0]}} )}/>
+            </div>
+        )
     }
 
     if(item.kind === kinds.inicio){
@@ -78,11 +86,11 @@ function getField(item, index, edit){
                 <h2>
                     Inicio de Seccion
                 </h2>
-                <input type="color" id="back" name="back"value={item.payload.back} onChange = {(e)=>edit(index, {...item, payload : {...item.payload, back : e.target.value}})}/>
+                <input type="color" id="back" name="back"value={item.payload.back || "#406e8f"} onChange = {(e)=>edit(index, {...item, payload : {...item.payload, back : e.target.value}})}/>
                 <label for="back">
                     Color Background 
                 </label>
-                <input type="color" id="letra" name="letra"value={item.payload.letra} onChange = {(e)=>edit(index, {...item, payload : {...item.payload, letra : e.target.value}})}/>
+                <input type="color" id="letra" name="letra"value={item.payload.letra || "#ffffff"} onChange = {(e)=>edit(index, {...item, payload : {...item.payload, letra : e.target.value}})}/>
                 <label for="letra">
                     Color Letra 
                 </label>

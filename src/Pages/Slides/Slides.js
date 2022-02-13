@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import TextFieldGenerator from "../components/TextFieldGenerator";
-import InputFileGenerator from "../components/InputFileGenerator";
+import TextFieldGenerator from "../../components/TextFieldGenerator";
+import InputFileGenerator from "../../components/InputFileGenerator";
 import { Button } from '@material-ui/core';
 import { getCodigoSlides } from './slidesUtils';
-import { uploadFile } from '../firebase/storageActions';
+import { uploadFile } from '../../firebase/storageActions';
 
 const textInputs = ["titulo" ,"descripcion", "boton", "destinoBoton"]
 const filesInputs = ["imagen"]

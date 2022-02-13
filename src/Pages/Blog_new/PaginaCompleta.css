@@ -1,0 +1,29 @@
+.completa-buttons{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.completa-container{
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgb(240, 240, 240);
+}
+
+.completa-item{
+    margin-top: 10px;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.incio-seccion{
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}

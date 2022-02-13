@@ -1,4 +1,4 @@
-export const kinds = {titulo : "titulo", parrafo : "parrafo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion", embed: "embed"}
+export const kinds = {titulo : "titulo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion", embed: "Embebido", pdf:"pdf"}
 
 function generateUrl(pageNumber, domain = "152"){
     return(`/apex/f?p=${domain}:${pageNumber}`)
@@ -49,15 +49,10 @@ export const generateCodigoPaginaCompleta = (inputs) => {
                 </h2>
                 ${getParagraph(inputs.categoria, "blog-kind")}                
                 ${getParagraph(inputs.fecha, "blog-date")}                
-                ${getParagraph(inputs.autores, "blog-author")}                                
-                ${getParagraph(inputs.resumen)}                                                                
-                <a className = "blog-pdf" href = "${inputs.pdf}" target = "_blank">
-                    Ver en PDF
-                </a>
+                ${getParagraph(inputs.autores, "blog-author")}                                                                                             
             </div>
         </div>
         <div class="blog-container limits">            
-            ${getImage(inputs.gif)}
             ${getSectionsCode(inputs.sections)}    
         </div>`
 }

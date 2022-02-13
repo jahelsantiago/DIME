@@ -1,4 +1,4 @@
-import { uploadFile } from "../firebase/storageActions"
+import { uploadFile } from "../../firebase/storageActions"
 
 const styles = `<style>
 .box-container{

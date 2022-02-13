@@ -1,13 +1,13 @@
 import "./BlogNews.css"
 import React, { useState } from 'react'
 import { generateCodigoPaginaCompleta, generateCodigoResumen, kinds } from './BlogGeneratorUtils';
-import { getFileUrl, uploadFile } from "../firebase/storageActions";
+import { getFileUrl, uploadFile } from "../../firebase/storageActions";
 import { Button } from "@material-ui/core";
-import TextFieldGenerator from "../components/TextFieldGenerator";
-import InputFileGenerator from "../components/InputFileGenerator";
+import TextFieldGenerator from "../../components/TextFieldGenerator";
+import InputFileGenerator from "../../components/InputFileGenerator";
 import PaginaCompleta from "./PaginaCompleta";
-import useArray from "../components/useArray";
-import { CopyButton } from "../components/CopyButton";
+import useArray from "../../Hooks/useArray";
+import { CopyButton } from "../../components/CopyButton";
 
 /**The fields of the files inputs */
 const filesInputs = ["imagen", "gif", "pdf"]
