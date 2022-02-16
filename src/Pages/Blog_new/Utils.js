@@ -33,7 +33,7 @@ export const generateCodigoPaginaCompleta = (titulo, categoria, fecha, autores, 
         </div>`
 }
 
-function getSectionsCode(sections = []){    
+function getSectionsCode(sections = []){   
     let code = ""
     sections.forEach(item => {        
         code = code.concat(getSection(item))
@@ -42,8 +42,9 @@ function getSectionsCode(sections = []){
 }
 
 function getSection(section){
+    console.log(section)
     if(section.kind === kinds.titulo){
-        return getTitle(section.payload)
+        return getTitle(section.payload.text)
     }
     if(section.kind === kinds.imagen){
         return getImage(section.payload, "image-blog")
@@ -55,7 +56,7 @@ function getSection(section){
         return getSectionEnd()
     }
     if (section.kind === kinds.embed){
-        return getEmbed(section.payload)
+        return getEmbed(section.payload.text)
     }
     if (section.kind === kinds.pdf){
         return getPdf(section.payload.text, section.payload.file)
@@ -75,7 +76,9 @@ function getPdf(titulo, file){
 }
 
 function getEmbed(code){
-    return code
+    return `<div class="embed-container">
+                ${code}
+            </div>`
 }
 
 function getTitle(title, className = ""){
@@ -93,6 +96,7 @@ function getParagraph(p, className = ""){
 }
 
 function getImage(src, className = ""){
+    console.log(src)
     if(!src){
         return ""
     }
@@ -100,6 +104,12 @@ function getImage(src, className = ""){
 }
 
 function getSectionStart(background, color){
+    if (background == undefined){
+        background =  "#406e8f"
+    }
+    if(color == undefined){
+        color = "#ffffff"
+    }
     return `<div class="blog-section" style="background-color: ${background}; color: ${color};">`
 }
 
@@ -133,9 +143,20 @@ const style = `
         color: #002f53;
     }        
 
-    .blog-container{
-        text-align: center;
+    .pdf-container{
+        background-color: #62D7F6;
+        width: fit-content;
+        padding: 0.5rem;
+        border-radius: 5px;
+        margin: 0.5rem;
         
+    }
+
+    .pdf-container a{
+        text-decoration: none;
+        font-weight: bold;
+        color: floralwhite;
+        height: 100%;
     }
 
     .blog-container img{
@@ -169,6 +190,7 @@ const style = `
     }                
     .blog-section{            
         padding: 3rem;
+        margin: 1rem 0;
     }
 
     .blog-section h3 {
@@ -192,6 +214,11 @@ const style = `
         font-weight: bolder;
         text-align: center;
         text-decoration: none;
+    }
+
+    .embed-container{
+        width: 100%;
+
     }
 </style>
 `

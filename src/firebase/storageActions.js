@@ -2,18 +2,18 @@ import { storage } from "./firebaseconfig";
 
 const storageRef = storage.ref("/blog")
 
-export async function uploadFile(file){        
-    file = file.current.files[0]    
-    return await getFileUrl(file)     
-}
+// export async function uploadFile(file){        
+//     file = file.current.files[0]    
+//     return await getFileUrl(file)     
+// }
 
-export async function getFileUrl(file){
+export async function uploadFile(file){
     if(!file){
         return ""
     }    
     const fileRef = storageRef.child(file.name)
     const snapshot = await fileRef.put(file)
-    const url = snapshot.ref.getDownloadURL()
+    const url = await snapshot.ref.getDownloadURL()
     
     return url
 }

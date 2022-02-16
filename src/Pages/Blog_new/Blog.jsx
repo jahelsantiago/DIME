@@ -5,15 +5,16 @@ import useArray from '../../Hooks/useArray'
 import PaginaCompleta from './BlogSections'
 import "./Blog.css"
 import { generateCodigoPaginaCompleta, preProcessSections } from './Utils'
+import { CopyButton } from '../../components/CopyButton'
 
 
 const Blog = () => {
 
-    const [titulo, setTitle] = useState("")
-    const [fecha, setFecha] = useState("")
-    const [autores, setAutores] = useState("")
-    const [resumen, setResumen] = useState("")
-    const [categoria, setCategorias] = useState("")
+    const [titulo, setTitle] = useState("Titulo")
+    const [fecha, setFecha] = useState("2020-01-01")
+    const [autores, setAutores] = useState("estos son los autores")
+    const [resumen, setResumen] = useState("esto es el resumen")
+    const [categoria, setCategorias] = useState("esti es ka ategoria")
     const [pagina, setPagina] = useState("")
 
     const [sections , push, remove, edit, up, down] = useArray() //array to sabe de sections
@@ -30,8 +31,8 @@ const Blog = () => {
     }
 
     //funcion para generar el resumen de la pagina completa
-    function generarResumen(){
-        preProcessSections(sections, titulo)
+    async function generarResumen(){
+        await preProcessSections(sections, titulo)
         const codigo = generateCodigoPaginaCompleta(titulo, categoria, fecha, autores, sections)
         setCodigoPaginaCompleta(codigo)
 
@@ -63,9 +64,9 @@ const Blog = () => {
             <textarea rows="20" cols="90" placeholder="Resumen" onChange={(e)=>{setResumen(e.target.value)}}/>
 
 
-            <label for="categorias">Categoria</label>
+            <label htmlFor="categorias">Categoria</label>
             <select name="cars" id="categorias" onChange={(e)=>{setCategorias(e.target.value)}}>
-                <option value="Opinion">Opinion</option>
+                <option value="Opinión">Opinión</option>
                 <option value="Policy Brief">Policy Brief</option>
                 <option value="Boletin">Boletin</option>
             </select>
@@ -82,8 +83,9 @@ const Blog = () => {
 
             <Button onClick = {generarResumen} variant="contained" color="primary">Generar Codigos</Button>
 
+            <CopyButton text = {codigoPaginaCompleta}/>
 
-            <p>
+            <p className='seccion-codigo'>
                 {codigoPaginaCompleta}
             </p>
         </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import "./NavBar.css"
 
-const pages = ["slides", "blog","blog_new", "ETS"]
+const pages = ["slides", "blog", "ETS"]
 
 export default function NavBar() {
     return (

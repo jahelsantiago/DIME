@@ -1,5 +1,3 @@
-
-import { BlogNews } from "./Pages/Blog/BlogNews";
 import NavBar from "./components/NavBar";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import Slides from "./Pages/Slides/Slides";

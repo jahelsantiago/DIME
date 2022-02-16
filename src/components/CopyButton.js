@@ -1,30 +1,26 @@
-import { Button } from '@material-ui/core'
 import React, { useState } from 'react'
+
+const style = {
+    "backgroundColor": "#002f53",
+    "color": "white",
+    "padding": "0.5rem",
+    "border-radius": "5px",
+}
 
 export const CopyButton = ({text}) => {
     
-    const [copyButton, setCopyButton] = useState({color : "cyan", text : "Copy"});
+    const [copyButton, setCopyButton] = useState({color : "antiquewhite", text : "Copy"});
 
     const handleCopy = () => {
         navigator.clipboard.writeText(text)
         setCopyButton({color:"gray", text: "Copied!"})
         setTimeout(()=>{
-            setCopyButton({color : "cyan", text : "Copy"})
+            setCopyButton({color : "antiquewhite", text : "Copy"})
         }, 4000)
     }
     return (
-        <Button
-                color={copyButton.color}
-                buttonType="filled"
-                size="regular"
-                rounded={false}
-                block={false}
-                iconOnly={false}
-                ripple="light"                
-                style = {{backgroundColor : copyButton.color}}
-                onClick={handleCopy}
-            >
+        <button style = {style} onClick={handleCopy}>
                 {copyButton.text}
-        </Button>
+        </button>
     )
 }

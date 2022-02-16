@@ -55,7 +55,7 @@ function ItemSeccion({item, index, deleteItem, edit, up, down}){
  * @returns 
  */
 function getField(item, index, edit){
-    if(item.kind === kinds.titulo || item.kind === kinds.parrafo || item.kind === kinds.embed){
+    if(item.kind === kinds.titulo){
         return (
             <div>
                 <h2>
@@ -65,6 +65,20 @@ function getField(item, index, edit){
             </div>
         )
     }
+
+    if(item.kind === kinds.embed){
+        return (
+            <div>
+                <h2>
+                    <a href="https://html-online.com/editor/" target="_blank">
+                      {item.kind} 
+                    </a>
+                </h2>
+               <textarea rows="8" cols="90"  type = "text" value = {item.payload.text} onChange = {(e)=>{edit(index, {...item, payload : {...item.payload, text : e.target.value}})}}/>
+            </div>
+        )
+    }
+    
 
     
     if(item.kind === kinds.imagen){
