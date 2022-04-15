@@ -4,6 +4,7 @@ import Slides from "./Pages/Slides/Slides";
 import { Home } from "./Pages/Home/Home";
 import { Ets } from "./Pages/ETS/Ets";
 import Blog from "./Pages/Blog_new/Blog";
+import Herramientas  from "./Pages/Herramientas/Herramientas";
 
 function App() {
   return (
@@ -15,8 +16,8 @@ function App() {
           <Route path = "/blog_new"  component = {Blog}/>
           <Route path = "/slides"  component = {Slides}/>
           <Route path = "/ETS"  component = {Ets}/>
-          <Route path = "/"  component = {Home}/>
-
+          <Route path = "/Home"  component = {Home}/>
+          <Route path = "/Herramientas"  component = {Herramientas}/>
         </Switch>      
       </Router>
     </div>

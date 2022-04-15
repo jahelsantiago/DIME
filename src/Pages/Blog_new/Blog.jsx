@@ -2,11 +2,12 @@ import { Button } from '@material-ui/core'
 import React, { useState } from 'react'
 import { addResume } from '../../firebase/fireActions'
 import useArray from '../../Hooks/useArray'
-import PaginaCompleta from './BlogSections'
+import useSections from './BlogSections'
 import "./Blog.css"
 import { generateCodigoPaginaCompleta, preProcessSections } from './Utils'
 import { CopyButton } from '../../components/CopyButton'
 
+const kinds = {titulo : "titulo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion", embed: "Embebido", pdf:"pdf"}
 
 const Blog = () => {
 
@@ -17,7 +18,7 @@ const Blog = () => {
     const [categoria, setCategorias] = useState("esti es ka ategoria")
     const [pagina, setPagina] = useState("")
 
-    const [sections , push, remove, edit, up, down] = useArray() //array to sabe de sections
+    const [PaginaCompleta, sections] = useSections(kinds)
 
     const [codigoPaginaCompleta, setCodigoPaginaCompleta] = useState("")
 
@@ -79,7 +80,9 @@ const Blog = () => {
 
             <Button variant="contained" color="primary" onClick={postResume} disabled = {disableResumenButton}>Publicar codigo del resumen</Button>
 
-            <PaginaCompleta sections={sections} push={push} remove={remove} edit={edit} up={up} down={down}/>
+            <h1>Cuerpo del blog</h1>
+
+            {PaginaCompleta}
 
             <Button onClick = {generarResumen} variant="contained" color="primary">Generar Codigos</Button>
 

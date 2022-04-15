@@ -1,11 +1,13 @@
 import { Button, IconButton } from '@material-ui/core'
 import React from 'react'
-import { kinds } from './Utils'
 import "./PaginaCompleta.css"
+import useArray from '../../Hooks/useArray'
 
+const kinds = {titulo : "titulo", imagen : "imagen", inicio : "inicio de seccion", fin: "fin de seccion", embed: "Embebido", pdf:"pdf", url:"url"}
 
-export default function PaginaCompleta({sections , push, remove, edit, up, down}) {                
-    return (
+export default function useSections(kinds) {
+    const [sections , push, remove, edit, up, down] = useArray()                 
+    let Body = 
         <div className = "completa-container">
             <div className = "">
                 {sections.map((item,index)=>(
@@ -19,7 +21,8 @@ export default function PaginaCompleta({sections , push, remove, edit, up, down}
             </div>
 
         </div> 
-    )
+    
+    return [Body, sections]
 }
 
 
@@ -61,6 +64,17 @@ function getField(item, index, edit){
                 <h2>
                     {item.kind}
                 </h2>
+                <textarea rows="2" cols="90"  type = "text" value = {item.payload.text} onChange = {(e)=>{edit(index, {...item, payload : {...item.payload, text : e.target.value}})}}/>
+            </div>
+        )
+    }
+
+    if(item.kind === kinds.url){
+        return (
+            <div>
+                <label htmlFor="url">Url</label>
+                <textarea rows="2" cols="90"  type = "text" value = {item.payload.url} onChange = {(e)=>{edit(index, {...item, payload : {...item.payload, url : e.target.value}})}}/>
+                <label> Texto</label>
                 <textarea rows="2" cols="90"  type = "text" value = {item.payload.text} onChange = {(e)=>{edit(index, {...item, payload : {...item.payload, text : e.target.value}})}}/>
             </div>
         )
