@@ -68,3 +68,19 @@ function unpackArchivos(archivos){
     }
     return archivos_unpacked
 }
+
+
+export async function readBiblioteca(){
+    let data =  await (await resumeRef.get()).data()
+    //convert objetct to array
+    data  = Object.entries(data)
+    //convert array to array of objects
+    data = data.map(item => {
+        return {
+            titulo: item[0],
+            ...item[1]
+        }
+    })
+    return data
+    
+}

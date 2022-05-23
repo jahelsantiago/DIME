@@ -1,4 +1,5 @@
-import { Button, TextField } from '@material-ui/core'
+import { Box, Button, TextField, Typography } from '@material-ui/core'
+import { Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { CopyButton } from '../../components/CopyButton'
 import RadioButtonsGroup from '../../components/RadioButton'
@@ -38,7 +39,11 @@ export const Ets = () => {
 
 
     return (
-        <div className = "Ets-container">            
+        <div className = "Ets-container">  
+        <Typography variant = "h2" align='center'>
+            ETS
+        </Typography>
+        <Stack spacing={3}>         
             
             <TextField
                 id="outlined-multiline-flexible"
@@ -81,6 +86,7 @@ export const Ets = () => {
             <p>
                 {codigo}
             </p>
+            </Stack> 
         </div>
     )
 }
