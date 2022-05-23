@@ -13,8 +13,10 @@ export default function ResumenesList() {
     const [bibliotecaElements, setBibliotecaElements] = React.useState([]);
 
     const [open, setOpen] = React.useState(false);
+    const [selectedElement, setSelectedElement] = React.useState({titulo: ""});
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (index) => {
+        setSelectedElement(bibliotecaElements[index]);
         setOpen(true);
     };
 
@@ -22,10 +24,14 @@ export default function ResumenesList() {
         setOpen(false);
     };
 
+    const handleDelete = () => {
+        setBibliotecaElements(bibliotecaElements.filter(element => element.titulo !== selectedElement.titulo));
+        handleClose();
+    }
+
     React.useEffect(() => {
         const getBiblioteca = async () => {
             const biblioteca = await readBiblioteca();
-            console.log(biblioteca);
             setBibliotecaElements(biblioteca);
         };
         getBiblioteca();
@@ -38,9 +44,10 @@ export default function ResumenesList() {
                     Eliminar archivos de la biblioteca
                 </Typography>
                 <Stack direction={"column"} spacing={2} sx={{ p: 3 }}>
-                    {bibliotecaElements.map((element, index) => <ResumenElement element={element} key={index} open = {handleClickOpen}/>)}
+                    {bibliotecaElements.map((element, index) => <ResumenElement element={element} key={index} open = {()=>handleClickOpen(index)}/>)}
                 </Stack>
             </Paper>
+
             <Dialog
                 open={open}
                 TransitionComponent={Transition}
@@ -48,16 +55,15 @@ export default function ResumenesList() {
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
             >
-                <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+                <DialogTitle>{"¿Está seguro que desea eliminar el siguiente elemento de la biblioteca?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
+                        {selectedElement.titulo}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={handleClose}>Agree</Button>
+                    <Button onClick={handleClose}>Cancelar</Button>
+                    <Button onClick={handleDelete}>Eliminar</Button>
                 </DialogActions>
             </Dialog>
         </Container>
