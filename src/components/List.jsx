@@ -4,10 +4,10 @@ import ListElement from './ListElement'
 
 /**
  * 
- * @param {list} array de objetos que contienen los datos a mostrar
- * @param {titleAtributte} string nombre del atributo del objeto que se desea mostrar en el titulo de la lista
- * @param {Icon} componente que se desea que aparezca en el icono
- * @param {handleClickOpen} function funcion que se ejecuta al hacer click en el Icono y ejecuta esa funcion con el indice de ese elemento 
+ * @param {array} list de objetos que contienen los datos a mostrar
+ * @param {string} titleAtributte  nombre del atributo del objeto que se desea mostrar en el titulo de la lista
+ * @param {componente} Icon que se desea que aparezca en el icono
+ * @param {functin}  handleClickOpen que se ejecuta al hacer click en el Icono y ejecuta esa funcion con el indice de ese elemento 
  * @returns 
  */
 export default function List({list, handleClickOpen, Icon, titleAtributte}) {

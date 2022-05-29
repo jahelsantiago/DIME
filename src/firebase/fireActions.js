@@ -1,4 +1,5 @@
 import { db } from "./firebaseconfig";
+import firebase from "firebase";
 
 //create pointer to the Blog collection
 const blogRef = db.collection("Blog");
@@ -71,7 +72,7 @@ function unpackArchivos(archivos){
 
 
 export async function readBiblioteca(){
-    let data =  await (await resumeRef.get()).data()
+    let data =  await (await bibliotecaRef.get()).data()
     //convert objetct to array
     data  = Object.entries(data)
     //convert array to array of objects
@@ -82,5 +83,18 @@ export async function readBiblioteca(){
         }
     })
     return data
-    
+}
+
+//deleate a resume from the Resumenes document
+export async function deleteBiblioteca(title){
+    let wasSuccesfull = true
+    try{
+    bibliotecaRef.update({
+        [title]: firebase.firestore.FieldValue.delete()
+    })
+    }catch(error){
+        wasSuccesfull = false
+    }
+    return wasSuccesfull
+
 }

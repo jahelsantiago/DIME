@@ -1,7 +1,7 @@
 import { Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Slide, Typography } from '@material-ui/core';
 import { Stack } from '@mui/material';
 import React from 'react'
-import { readBiblioteca } from '../../firebase/fireActions';
+import { deleteBiblioteca, readBiblioteca } from '../../firebase/fireActions';
 import { BsTrash } from 'react-icons/bs';
 import ListElement from '../../components/ListElement';
 import List from '../../components/List';
@@ -11,9 +11,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ResumenesList() {
+export default function EliminarHerramientas({bibliotecaElements, setBibliotecaElements}) {
 
-    const [bibliotecaElements, setBibliotecaElements] = React.useState([]);
+
 
     const [open, setOpen] = React.useState(false);
     const [selectedElement, setSelectedElement] = React.useState({ titulo: "" });
@@ -29,16 +29,11 @@ export default function ResumenesList() {
 
     const handleDelete = () => {
         setBibliotecaElements(bibliotecaElements.filter(element => element.titulo !== selectedElement.titulo));
+        deleteBiblioteca(selectedElement.titulo);
         handleClose();
     }
 
-    React.useEffect(() => {
-        const getBiblioteca = async () => {
-            const biblioteca = await readBiblioteca();
-            setBibliotecaElements(biblioteca);
-        };
-        getBiblioteca();
-    }, []);
+
 
     return (
         <Container>
@@ -46,7 +41,7 @@ export default function ResumenesList() {
                 <Typography variant="h4" align='center'>
                     Eliminar archivos de la biblioteca
                 </Typography>
-
+        
                 <List Icon={BsTrash} list={bibliotecaElements} handleClickOpen={handleClickOpen} titleAtributte={"titulo"} />
             </Paper>
 
@@ -65,22 +60,3 @@ export default function ResumenesList() {
         </Container>
     )
 }
-
-function ResumenElement({ element, key, open }) {
-
-    return (
-        <Paper elevation={4} key={key}>
-            <Stack direction={"row"} spacing={2} justifyContent={"space-between"} alignItems={"center"}>
-                <Typography variant="body" >
-                    {element.titulo}
-                </Typography>
-                <IconButton onClick={open}>
-                    <BsTrash />
-                </IconButton>
-            </Stack>
-        </Paper>
-    )
-}
-
-
-
