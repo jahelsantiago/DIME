@@ -3,17 +3,20 @@ import { Stack } from '@mui/material';
 import React from 'react'
 import { readBiblioteca } from '../../firebase/fireActions';
 import { BsTrash } from 'react-icons/bs';
+import ListElement from '../../components/ListElement';
+import List from '../../components/List';
+import Modal from '../../components/Modal';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
-  });
+});
 
 export default function ResumenesList() {
 
     const [bibliotecaElements, setBibliotecaElements] = React.useState([]);
 
     const [open, setOpen] = React.useState(false);
-    const [selectedElement, setSelectedElement] = React.useState({titulo: ""});
+    const [selectedElement, setSelectedElement] = React.useState({ titulo: "" });
 
     const handleClickOpen = (index) => {
         setSelectedElement(bibliotecaElements[index]);
@@ -43,19 +46,12 @@ export default function ResumenesList() {
                 <Typography variant="h4" align='center'>
                     Eliminar archivos de la biblioteca
                 </Typography>
-                <Stack direction={"column"} spacing={2} sx={{ p: 3 }}>
-                    {bibliotecaElements.map((element, index) => <ResumenElement element={element} key={index} open = {()=>handleClickOpen(index)}/>)}
-                </Stack>
+
+                <List Icon={BsTrash} list={bibliotecaElements} handleClickOpen={handleClickOpen} titleAtributte={"titulo"} />
             </Paper>
 
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle>{"¿Está seguro que desea eliminar el siguiente elemento de la biblioteca?"}</DialogTitle>
+
+            <Modal open={open} handleClose={handleClose} title={"¿Esta seguro que desea eliminar?"} >
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
                         {selectedElement.titulo}
@@ -65,7 +61,7 @@ export default function ResumenesList() {
                     <Button onClick={handleClose}>Cancelar</Button>
                     <Button onClick={handleDelete}>Eliminar</Button>
                 </DialogActions>
-            </Dialog>
+            </Modal>
         </Container>
     )
 }
@@ -78,7 +74,7 @@ function ResumenElement({ element, key, open }) {
                 <Typography variant="body" >
                     {element.titulo}
                 </Typography>
-                <IconButton onClick={open}> 
+                <IconButton onClick={open}>
                     <BsTrash />
                 </IconButton>
             </Stack>

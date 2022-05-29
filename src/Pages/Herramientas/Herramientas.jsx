@@ -5,6 +5,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { readBiblioteca, uploadBiblioteca } from "../../firebase/fireActions";
 import useSections from "../Blog_new/BlogSections";
+import EditarHerramientas from "./EditarHerramientas";
 import "./Herramientas.css";
 import ResumenesList from "./ResumenesList";
 
@@ -58,6 +59,7 @@ export default function Herramientas() {
         </form>
       </Paper>
       <ResumenesList />
+      <EditarHerramientas />
     </div>
   );
 }

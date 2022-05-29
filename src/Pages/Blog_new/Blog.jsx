@@ -11,11 +11,11 @@ const kinds = {titulo : "titulo", imagen : "imagen", inicio : "inicio de seccion
 
 const Blog = () => {
 
-    const [titulo, setTitle] = useState("Titulo")
+    const [titulo, setTitle] = useState("")
     const [fecha, setFecha] = useState("2020-01-01")
     const [autores, setAutores] = useState("estos son los autores")
     const [resumen, setResumen] = useState("esto es el resumen")
-    const [categoria, setCategorias] = useState("esti es ka ategoria")
+    const [categoria, setCategorias] = useState("Opinión")
     const [pagina, setPagina] = useState("")
 
     const [PaginaCompleta, sections] = useSections(kinds)
