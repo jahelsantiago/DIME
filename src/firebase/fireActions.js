@@ -10,6 +10,8 @@ const resumeRef = blogRef.doc("Resumenes");
 
 const bibliotecaRef = propiedad_intelectualRef.doc("Biblioteca");
 
+const bibliotecaCollection = db.collection("Biblioteca_Propiedad");
+
 //create a function to add a new resume to the Resumenes document, it must be an object with the following properties:
 //title: string
 //autores: string
@@ -37,27 +39,51 @@ export async function addResume(resumen, autores, titulo, fecha, categorias, pag
     return wasSuccesfull
 }   
 
-
-export async function uploadBiblioteca(titulo, descripcion, tipo, archivos) {
+/**
+ * Añade una nueva propiedad intelectual a la biblioteca
+ * @param {*} titulo 
+ * @param {*} descripcion 
+ * @param {*} tipo 
+ * @param {*} archivos 
+ * @param {*} referencias 
+ * @returns 
+ */
+export async function addBiblioteca(titulo, descripcion, tipo, archivos, referencias) {
     archivos = unpackArchivos(archivos)
-    
-    const biblioteca = {
-        [titulo] : {
-        titulo,
-        descripcion,
-        tipo,
-        archivos,
-        }
-    }
+    const biblioteca = {titulo, descripcion, tipo, archivos, referencias}
     let wasSuccesfull = true
     try{
-    bibliotecaRef.update(biblioteca)
+        bibliotecaCollection.add(biblioteca)
     }catch(error){
-        wasSuccesfull = false
         console.log(error)
+        wasSuccesfull = false
     }
     return wasSuccesfull
 }
+
+/**
+ * Retorna una lista con todos los elementos de la biblioteca
+ * @returns list
+ */
+export async function getBiblioteca(){
+    let biblioteca = await bibliotecaCollection.get()
+    biblioteca = biblioteca.docs.map(doc => {
+        return {
+            id: doc.id,
+            ...doc.data()
+        }
+    })
+    return biblioteca
+}
+
+/**
+ * Elimina una propiedad intelectual de la biblioteca
+ * @param {*} bibliotecaID 
+ */
+export async function deleteBiblioteca(bibliotecaID){
+    bibliotecaCollection.doc(bibliotecaID).delete()
+}
+    
 
 function unpackArchivos(archivos){
     let archivos_unpacked = []
@@ -83,18 +109,4 @@ export async function readBiblioteca(){
         }
     })
     return data
-}
-
-//deleate a resume from the Resumenes document
-export async function deleteBiblioteca(title){
-    let wasSuccesfull = true
-    try{
-    bibliotecaRef.update({
-        [title]: firebase.firestore.FieldValue.delete()
-    })
-    }catch(error){
-        wasSuccesfull = false
-    }
-    return wasSuccesfull
-
 }

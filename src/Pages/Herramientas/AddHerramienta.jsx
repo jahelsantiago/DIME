@@ -1,14 +1,15 @@
 import { Button, Paper, Typography } from '@material-ui/core';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { uploadBiblioteca } from '../../firebase/fireActions';
+import { addBiblioteca, uploadBiblioteca } from '../../firebase/fireActions';
 import useSections from '../Blog_new/BlogSections';
 
 export default function AddHerramienta() {
 
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-        console.log(uploadBiblioteca(data.title, data.description, data.type, Sections))
+        console.log(data)
+        console.log(addBiblioteca(data.title, data.description, data.type, Sections, data.referencias))
     }
     const [SectionElement, Sections] = useSections({ url: "url", pdf: "pdf" });
 
@@ -22,7 +23,7 @@ export default function AddHerramienta() {
                 <label htmlFor="title" className="label-herramienta">Titulo</label>
                 <textarea {...register("title")} />
                 <label htmlFor="description" className="label-herramienta">Descripcion</label>
-                <textarea  {...register("description")} rows="4" cols="50"></textarea>
+                <textarea  {...register("description")} rows="10" cols="50"></textarea>
                 <label htmlFor="type" className="label-herramienta">Tipo</label>
                 <select {...register("type")}>
                     <option value="spanish">Biblioteca en español</option>
@@ -30,7 +31,7 @@ export default function AddHerramienta() {
                     <option value="other">Herramientas y otros</option>
                 </select>
                 <label htmlFor="type" className="label-herramienta">Referencias</label>
-                <textarea  {...register("description")} rows="2 " cols="50"></textarea>
+                <textarea  {...register("referencias")} rows="5 " cols="50"></textarea>
                 <label className="label-herramienta">
                     Anexos y archivos
                 </label>

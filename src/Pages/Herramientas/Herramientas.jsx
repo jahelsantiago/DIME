@@ -1,9 +1,9 @@
 
 import { Button } from "@material-ui/core";
-import { Paper, Typography } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { readBiblioteca, uploadBiblioteca } from "../../firebase/fireActions";
+import { getBiblioteca, readBiblioteca, uploadBiblioteca } from "../../firebase/fireActions";
 import useSections from "../Blog_new/BlogSections";
 import AddHerramienta from "./AddHerramienta";
 import EditarHerramientas from "./EditarHerramientas";
@@ -17,12 +17,13 @@ import EliminarHerramientas from "./EliminarHerramientas";
 export default function EditarHerramienta() {
   const [bibliotecaElements, setBibliotecaElements] = React.useState([]);
   React.useEffect(() => {
-    const getBiblioteca = async () => {
-        const biblioteca = await readBiblioteca();
-        setBibliotecaElements(biblioteca);
+    const getBibliotecaElements = async () => {
+      const biblioteca = await getBiblioteca();
+      setBibliotecaElements(biblioteca);
+      console.log(biblioteca);
     };
-    getBiblioteca();
-}, []);
+    getBibliotecaElements();
+  }, []);
 
   return (
 
@@ -30,9 +31,12 @@ export default function EditarHerramienta() {
       <Typography variant="h2">
         Herramientas - Biblioteca
       </Typography>
-      <AddHerramienta />
-      <EliminarHerramientas bibliotecaElements = {bibliotecaElements} setBibliotecaElements = {setBibliotecaElements}/>
-      <EditarHerramientas bibliotecaElements = {bibliotecaElements} setBibliotecaElements = {setBibliotecaElements}/>
+      <Stack spacing={2}>
+
+        <AddHerramienta />
+        <EliminarHerramientas bibliotecaElements={bibliotecaElements} setBibliotecaElements={setBibliotecaElements} />
+        {/* <EditarHerramientas bibliotecaElements = {bibliotecaElements} setBibliotecaElements = {setBibliotecaElements}/> */}
+      </Stack>
     </div>
   );
 }

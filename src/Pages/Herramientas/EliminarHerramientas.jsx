@@ -28,8 +28,8 @@ export default function EliminarHerramientas({bibliotecaElements, setBibliotecaE
     };
 
     const handleDelete = () => {
-        setBibliotecaElements(bibliotecaElements.filter(element => element.titulo !== selectedElement.titulo));
-        deleteBiblioteca(selectedElement.titulo);
+        setBibliotecaElements(bibliotecaElements.filter(element => element.id !== selectedElement.id));
+        deleteBiblioteca(selectedElement.id);
         handleClose();
     }
 
