@@ -1,17 +1,32 @@
-import { Button, Paper, Typography } from '@material-ui/core';
-import React from 'react'
+import { Button, Paper, Snackbar, Typography } from '@material-ui/core';
+import { Alert } from '@mui/material';
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { addBiblioteca, uploadBiblioteca } from '../../firebase/fireActions';
+import { addBiblioteca, getBibliotecaTypes, uploadBiblioteca } from '../../firebase/fireActions';
 import useSections from '../Blog_new/BlogSections';
 
 export default function AddHerramienta() {
 
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const onSubmit = data => {
-        console.log(data)
-        console.log(addBiblioteca(data.title, data.description, data.type, Sections, data.referencias))
+        const succesfull = addBiblioteca(data.title, data.description, data.type, Sections, data.referencias)
+        console.log(succesfull)
+        setOpenSnack(true);
+        reset();
     }
+
     const [SectionElement, Sections] = useSections({ url: "url", pdf: "pdf" });
+    const [openSnack, setOpenSnack] = useState(false)
+    const [types, setTypes] = useState()
+
+    useEffect(() => {
+        async function getTypes() {
+            const types = await getBibliotecaTypes()
+            setTypes(types)
+        }
+        
+        getTypes()
+    }, [])
 
 
     return (
@@ -26,9 +41,7 @@ export default function AddHerramienta() {
                 <textarea  {...register("description")} rows="10" cols="50"></textarea>
                 <label htmlFor="type" className="label-herramienta">Tipo</label>
                 <select {...register("type")}>
-                    <option value="spanish">Biblioteca en español</option>
-                    <option value="english">Biblioteca en Ingles</option>
-                    <option value="other">Herramientas y otros</option>
+                    {types && types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                 </select>
                 <label htmlFor="type" className="label-herramienta">Referencias</label>
                 <textarea  {...register("referencias")} rows="5 " cols="50"></textarea>
@@ -41,6 +54,14 @@ export default function AddHerramienta() {
                     Subir
                 </Button>
             </form>
+            <Snackbar
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                open={openSnack}
+                onClose={() => setOpenSnack(false)}
+                autoHideDuration={3000}
+            >
+                <Alert severity="success" style={{backgroundColor: "green", color: "white"}}>Libro subido con exito</Alert>
+            </Snackbar>
         </Paper>
     )
 }

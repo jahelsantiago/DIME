@@ -13,8 +13,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function EliminarHerramientas({bibliotecaElements, setBibliotecaElements}) {
 
-
-
     const [open, setOpen] = React.useState(false);
     const [selectedElement, setSelectedElement] = React.useState({ titulo: "" });
 
