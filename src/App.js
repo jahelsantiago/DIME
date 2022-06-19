@@ -5,6 +5,7 @@ import { Home } from "./Pages/Home/Home";
 import { Ets } from "./Pages/ETS/Ets";
 import Blog from "./Pages/Blog_new/Blog";
 import Herramientas  from "./Pages/Herramientas/Herramientas";
+import Precios from "./Pages/Precios/Precios";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path = "/ETS"  component = {Ets}/>
           <Route path = "/Home"  component = {Home}/>
           <Route path = "/Herramientas"  component = {Herramientas}/>
+          <Route path = "/Precios"  component = {Precios}/>
         </Switch>      
       </Router>
     </div>

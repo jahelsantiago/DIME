@@ -3,6 +3,7 @@ import React from 'react'
 import "./PaginaCompleta.css"
 import useArray from '../../Hooks/useArray'
 import { Autocomplete, TextField } from '@mui/material'
+import "./BlogSections.css"
 
 const kinds = { titulo: "titulo", imagen: "imagen", inicio: "inicio de seccion", fin: "fin de seccion", embed: "Embebido", pdf: "pdf", url: "url" }
 
@@ -61,7 +62,7 @@ function ItemSeccion({ item, index, deleteItem, edit, up, down }) {
 function getField(item, index, edit) {
     if (item.kind === kinds.titulo) {
         return (
-            <div>
+            <div className='item-sections'>
                 <h2>
                     {item.kind}
                 </h2>
@@ -72,7 +73,7 @@ function getField(item, index, edit) {
 
     if (item.kind === kinds.url) {
         return (
-            <div>
+            <div className='url-container'>
                 <label htmlFor="url">Url</label>
                 <textarea rows="2" cols="90" type="text" value={item.payload.url} onChange={(e) => { edit(index, { ...item, payload: { ...item.payload, url: e.target.value } }) }} />
                 <label> Texto</label>
